@@ -1,0 +1,92 @@
+ASSIGNMENT 4 -  B+-TREE INDEX
+
+TEAM MEMBERS :
+1)ASWIN ACHUTHAN (A20361329)
+2)GOPIKAA MANIKANDAN(A20359996)
+3)VIKNESHKUMAR THIRUMOORTHY(A20354393)
+
+CONTENTS :
+1)Instructions to run the code
+2)Description of functions used
+
+***********************************************************************************************
+
+1)Instructions to run the code
+------------------------------
+
+In the terminal,navigate to the assignment directory.
+
+
+Type: 
+	make -f makefile.mk
+        ./btree_mgr
+
+
+**************************************************************************************************
+
+2)Description of functions
+--------------------------
+
+				----------------------------
+				/ Index Manager Functions /
+			  	----------------------------
+
+
+Function : initIndexManager						
+---------------------------	
+Initializing index Manager.
+Allocating memory.
+
+Function : shutdownIndexManager						
+-------------------------------	
+Removes memory allocation using free().
+
+
+				----------------------------
+				/B+-tree Manager Functions/
+			  	----------------------------
+
+Function : createBtree		
+-----------------------	
+1)Checks if the datatype is Int.
+2)Creates a B tree index.
+
+Function : openBtree					
+--------------------	
+1)Checks if the Btree is created.
+2)Opens the B tree index.
+
+Function : closeBtree				
+---------------------	
+1)Checks if the tree is created.
+2)Closes the B tree index.
+
+Function : deleteBtree					
+-----------------------
+Deletes a B tree index and removes the page file.	
+
+				---------------
+				/Key Functions/
+			 	---------------
+
+Function : findKey					
+------------------	
+1) Checks using current BTreeHandle pointer with the next node
+2) Returns the RID for the entry with the search key in the b-tree. 
+3) If the key does not exist this function should return RC_IM_KEY_NOT_FOUND from dberror.h.
+
+Function : insertKey					
+--------------------	
+1) Checks using current BTreeHandle pointer with the next node and performs checking operation if the val is 0.
+2) Inserts a new key and record pointer pair into the index. 
+3) Returns error code RC_IM_KEY_ALREADY_EXISTS if this key is already stored. 
+
+Function : deleteKey						
+--------------------	
+1) Checks if the size of BtreeHandle is already initialized and checks with the condition using BTreeHandle pointer .
+2) Initialize pointer,index page and index slot to zero.
+3) Removes a key from the index. 
+4) Returns RC_IM_KEY_NOT_FOUND if the key is not in the index.
+
+
+***************************************************************************************************************************************
