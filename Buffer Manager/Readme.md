@@ -3,13 +3,19 @@
 A specialized component of the Own Database Engine that implements efficient memory management through buffer pools with multiple page replacement strategies.
 
 ## 📋 Table of Contents
-1. [🚀 Getting Started](#getting-started)
-2. [🔧 Function Documentation](#function-documentation)
-3. [📁 Important Files](#important-files)
+1. [Component Overview](#component-overview)
+2. [Getting Started](#getting-started)
+3. [Important Files](#important-files)
+4. [Function Documentation](#function-doc)
+5. [Replacement Strategies](#replacement-strategies)
+6. [Notes](#notes)
+7. [Troubleshooting](#troubleshoot)
+8. [Integration](#integration)
+9. [Performance Considerations](#perf)
 
 ---
 
-## 🎯 Component Overview
+## Component Overview
 
 The **Buffer Manager** is the memory management layer of the database engine that manages a fixed number of pages in memory (page frames) that represent pages from page files. This component implements sophisticated buffer pool management with multiple replacement strategies for optimal performance.
 
@@ -28,7 +34,25 @@ The **Buffer Manager** is the memory management layer of the database engine tha
 
 ---
 
-## 📁 Important Files
+## Getting Started
+
+### Prerequisites
+- Make sure you have a C compiler installed
+- Navigate to the Buffer Manager directory in your terminal
+
+### Building and Running
+```bash
+# Build the project
+make -f makefile.mk
+
+# Run the buffer manager tests
+./test_buffer_fifo
+./test_buffer_lru
+```
+
+---
+
+## Important Files
 
 ### 🧠 **Core Buffer Management**
 - **`buffer_mgr.c`** & **`buffer_mgr.h`** - Main buffer manager implementation
@@ -47,27 +71,10 @@ The **Buffer Manager** is the memory management layer of the database engine tha
 - **`test_helper.h`** - Testing framework support
 - **`makefile.mk`** - Build configuration
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Make sure you have a C compiler installed
-- Navigate to the Buffer Manager directory in your terminal
-
-### Building and Running
-```bash
-# Build the project
-make -f makefile.mk
-
-# Run the buffer manager tests
-./test_buffer_fifo
-./test_buffer_lru
-```
 
 ---
 
-## 🔧 Function Documentation
+## Function Documentation
 
 ### 🎯 Buffer Pool Management
 
@@ -133,7 +140,7 @@ make -f makefile.mk
 
 ---
 
-## 🔄 Replacement Strategies
+## Replacement Strategies
 
 ### **FIFO (First In, First Out)**
 - **Description**: Replaces the oldest page in the buffer pool
@@ -162,29 +169,30 @@ make -f makefile.mk
 
 ---
 
-## 📝 Notes
+## Notes
 - Each buffer pool can handle only one page file
 - Multiple buffer pools can be open simultaneously
 - Page replacement strategy is determined at initialization
 - Dirty pages are automatically written back when replaced
 - Statistics are maintained for performance analysis
 
-## 🐛 Troubleshooting
+## Troubleshooting
 If you encounter build errors, ensure:
 - All source files are present in the directory
 - The makefile is correctly configured
 - You have appropriate permissions to create and modify files
 - Dependencies from other components are properly linked
 
-## 🔗 Integration
+## Integration
 This component is designed to work with:
 - **Storage Manager**: For page file operations
 - **Record Manager**: For record-level operations
 - **B+-Tree Manager**: For index operations
 - **Higher-level Components**: For complete database functionality
 
-## 📊 Performance Considerations
+## Performance Considerations
 - **Buffer Pool Size**: Larger pools reduce I/O but increase memory usage
 - **Replacement Strategy**: Choose based on your access pattern characteristics
 - **Page Pinning**: Minimize unnecessary pinning to improve replacement efficiency
 - **Dirty Page Management**: Balance between performance and data consistency
+
