@@ -3,19 +3,19 @@
 A comprehensive database engine implementation featuring a multi-layered architecture with storage management, buffer management, record management, and B+ Tree indexing capabilities.
 
 ## 📋 Table of Contents
-1. [🚀 Project Overview](#project-overview)
+1. [Project Overview](#project-overview)
 2. [System Architecture](#system-architecture)
-3. [🔧 Core Components](#core-components)
-4. [📁 Project Structure](#project-structure)
-5. [🚀 Getting Started](#getting-started)
-6. [🧪 Testing](#testing)
-7. [📚 Learning Outcomes](#learning-outcomes)
-8. [🔍 Use Cases](#use-cases)
-9. [📝 Notes](#notes)
+3. [Core Components](#core-components)
+4. [Project Structure](#project-structure)
+5. [Getting Started](#getting-started)
+6. [Testing](#testing)
+7. [Learning Outcomes](#learning-outcomes)
+8. [Use Cases](#use-cases)
+9. [Notes](#notes)
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
 The **Own Database Engine** is a complete database management system that demonstrates fundamental database concepts through a layered architecture. This project serves as both an educational tool and a foundation for understanding how modern database systems work internally.
 
@@ -85,7 +85,7 @@ The **Own Database Engine** is a complete database management system that demons
 
 ---
 
-## 🔧 Core Components
+## Core Components
 
 ### 🌳 **B+ Tree Index Manager**
 - **Purpose**: Provides efficient indexing for fast data retrieval and manipulation
@@ -125,7 +125,7 @@ The **Own Database Engine** is a complete database management system that demons
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Own-Database-Engine/
@@ -138,7 +138,7 @@ Own-Database-Engine/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - C compiler (GCC recommended)
@@ -203,7 +203,7 @@ make -f makefile2.mk
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Each component includes comprehensive test suites:
 - **Storage Manager**: Basic and advanced file I/O operations
@@ -213,7 +213,7 @@ Each component includes comprehensive test suites:
 
 ---
 
-## 📚 Learning Outcomes
+## Learning Outcomes
 
 This project demonstrates:
 - **Database Architecture**: Multi-layered design principles
@@ -225,7 +225,7 @@ This project demonstrates:
 
 ---
 
-## 🔍 Use Cases
+## Use Cases
 
 - **Educational**: Learning database internals
 - **Research**: Database algorithm experimentation
@@ -234,7 +234,7 @@ This project demonstrates:
 
 ---
 
-## 📝 Notes
+## Notes
 
 - Each component is designed to work independently
 - Components can be integrated for full database functionality
