@@ -9,9 +9,9 @@ A specialized component of the Own Database Engine that implements efficient mem
 4. [Function Documentation](#function-doc)
 5. [Replacement Strategies](#replacement-strategies)
 6. [Notes](#notes)
-7. [Troubleshooting](#troubleshoot)
+7. [Troubleshooting](#troubleshooting)
 8. [Integration](#integration)
-9. [Performance Considerations](#perf)
+9. [Performance Considerations](#perf-consideration)
 
 ---
 
@@ -195,4 +195,5 @@ This component is designed to work with:
 - **Replacement Strategy**: Choose based on your access pattern characteristics
 - **Page Pinning**: Minimize unnecessary pinning to improve replacement efficiency
 - **Dirty Page Management**: Balance between performance and data consistency
+
 
