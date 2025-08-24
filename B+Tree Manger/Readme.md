@@ -1,17 +1,21 @@
-# 🌳 B+-Tree Index Manager
+# 🌳 B+ Tree Index Manager
 
 A specialized component of the Own Database Engine that implements efficient B+-tree indexing for fast data retrieval and manipulation operations.
 
 ## 📋 Table of Contents
-1. [🚀 Getting Started](#getting-started)
-2. [🔧 Function Documentation](#function-documentation)
-3. [📁 Important Files](#important-files)
+1. [Component Overview](#component-overview)
+2. [Getting Started](#getting-started)
+3. [Important Files](#important-files)
+4. [Function Documentation](#function-documentation)
+5. [Notes](#notes)
+6. [Troubleshooting](#troubleshooting)
+7. [Integration](#integration)
 
 ---
 
-## 🎯 Component Overview
+## Component Overview
 
-The **B+-Tree Index Manager** is the indexing layer of the database engine that provides fast access to data through B+-tree data structures. This component handles all index-related operations including creation, deletion, searching, and maintenance of B+-tree indexes.
+The **B+ Tree Index Manager** is the indexing layer of the database engine that provides fast access to data through B+ tree data structures. This component handles all index-related operations including creation, deletion, searching, and maintenance of B+ tree indexes.
 
 ### 🔑 **Key Features**
 - **Efficient Indexing**: B+-tree implementation for logarithmic search complexity
@@ -28,7 +32,24 @@ The **B+-Tree Index Manager** is the indexing layer of the database engine that 
 
 ---
 
-## 📁 Important Files
+## Getting Started
+
+### Prerequisites
+- Make sure you have a C compiler installed
+- Navigate to the B+Tree Manager directory in your terminal
+
+### Building and Running
+```bash
+# Build the project
+make -f makefile.mk
+
+# Run the B+-Tree manager
+./btree_mgr
+```
+
+---
+
+## Important Files
 
 ### 🌳 **Core B+-Tree Implementation**
 - **`btree_mgr.c`** & **`btree_mgr.h`** - Main B+-tree index manager implementation
@@ -59,24 +80,7 @@ The **B+-Tree Index Manager** is the indexing layer of the database engine that 
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Make sure you have a C compiler installed
-- Navigate to the B+Tree Manager directory in your terminal
-
-### Building and Running
-```bash
-# Build the project
-make -f makefile.mk
-
-# Run the B+-Tree manager
-./btree_mgr
-```
-
----
-
-## 🔧 Function Documentation
+## Function Documentation
 
 ### 🎯 Index Manager Functions
 
@@ -148,21 +152,21 @@ make -f makefile.mk
 
 ---
 
-## 📝 Notes
+## Notes
 - All functions return error codes defined in `dberror.h`
 - Ensure proper error handling when calling these functions
 - The B+-tree implementation supports Integer data types
 - Memory management is handled automatically by the manager functions
 - This component integrates with the Buffer Manager for page-level operations
 
-## 🐛 Troubleshooting
+## Troubleshooting
 If you encounter build errors, ensure:
 - All source files are present in the directory
 - The makefile is correctly configured
 - You have appropriate permissions to create and modify files
 - Dependencies from other components are properly linked
 
-## 🔗 Integration
+## Integration
 This component is designed to work with:
 - **Buffer Manager**: For page-level memory management
 - **Record Manager**: For record storage and retrieval
