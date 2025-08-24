@@ -4,7 +4,7 @@ A comprehensive database engine implementation featuring a multi-layered archite
 
 ## 📋 Table of Contents
 1. [🚀 Project Overview](#project-overview)
-2. [🏗️ System Architecture](#system-architecture)
+2. [System Architecture](#system-architecture)
 3. [🔧 Core Components](#core-components)
 4. [📁 Project Structure](#project-structure)
 5. [🚀 Getting Started](#getting-started)
@@ -27,7 +27,7 @@ The **Own Database Engine** is a complete database management system that demons
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
