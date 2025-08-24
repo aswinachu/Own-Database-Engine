@@ -3,13 +3,20 @@
 A specialized component of the Own Database Engine that handles low-level file I/O operations, page management, and persistent storage operations.
 
 ## 📋 Table of Contents
-1. [🚀 Getting Started](#getting-started)
-2. [🔧 Function Documentation](#function-documentation)
-3. [📁 Important Files](#important-files)
+1. [Component Overview](#component-overview)
+2. [Getting Started](#getting-started)
+3. [Important Files](#important-files)
+4. [Function Documentation](#function-documentation)
+5. [Data Structures](#data-structures)
+6. [Notes](#notes)
+7. [Troubleshooting](#troubleshooting)
+8. [Integration](#integration)
+9. [Performance Considerations](#performance-considerations)
+10. [Implementation Details](#implementation-details)
 
 ---
 
-## 🎯 Component Overview
+## Component Overview
 
 The **Storage Manager** is the foundational storage layer of the database engine that provides the lowest level of abstraction for file operations. This component handles page-based file management, block I/O operations, and provides the persistent storage foundation for all other database components.
 
@@ -29,24 +36,7 @@ The **Storage Manager** is the foundational storage layer of the database engine
 - Foundation for higher-level database components
 
 ---
-
-## 📁 Important Files
-
-### 💾 **Core Storage Management**
-- **`storage_mgr.c`** & **`storage_mgr.h`** - Main storage manager implementation
-
-### 🔧 **Supporting Components**
-- **`dberror.c`** & **`dberror.h`** - Error codes and error management system
-
-### 🧪 **Testing & Build**
-- **`test_storage_basic.c`** - Basic storage operations test suite
-- **`test_storage_advanced.c`** - Advanced storage management tests
-- **`test_helper.h`** - Testing framework support
-- **`makefile.mk`** - Build configuration
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Make sure you have a C compiler installed
@@ -61,10 +51,24 @@ make -f makefile.mk
 ./test_storage_basic
 ./test_storage_advanced
 ```
-
 ---
 
-## 🔧 Function Documentation
+## Important Files
+
+### 💾 **Core Storage Management**
+- **`storage_mgr.c`** & **`storage_mgr.h`** - Main storage manager implementation
+
+### 🔧 **Supporting Components**
+- **`dberror.c`** & **`dberror.h`** - Error codes and error management system
+
+### 🧪 **Testing & Build**
+- **`test_storage_basic.c`** - Basic storage operations test suite
+- **`test_storage_advanced.c`** - Advanced storage management tests
+- **`test_helper.h`** - Testing framework support
+- **`makefile.mk`** - Build configuration
+---
+
+## Function Documentation
 
 ### 🎯 Storage Manager Initialization
 
@@ -172,7 +176,7 @@ make -f makefile.mk
 
 ---
 
-## 📊 Data Structures
+## Data Structures
 
 ### **SM_FileHandle**
 ```c
@@ -191,37 +195,38 @@ typedef char* SM_PageHandle;  // Pointer to page data buffer
 
 ---
 
-## 📝 Notes
+## Notes
 - All pages have a fixed size defined by PAGE_SIZE
 - Page numbers are 0-indexed
 - File operations maintain current position for sequential access
 - Error handling is consistent across all operations
 - Files are automatically extended when needed
 
-## 🐛 Troubleshooting
+## Troubleshooting
 If you encounter build errors, ensure:
 - All source files are present in the directory
 - The makefile is correctly configured
 - You have appropriate permissions to create and modify files
 - PAGE_SIZE constant is properly defined
 
-## 🔗 Integration
+## Integration
 This component is designed to work with:
 - **Buffer Manager**: For page-level memory management
 - **Record Manager**: For table file operations
 - **B+-Tree Manager**: For index file operations
 - **Higher-level Components**: For complete database functionality
 
-## 📊 Performance Considerations
+## Performance Considerations
 - **Page Size**: Optimize PAGE_SIZE for your storage system
 - **Sequential Access**: Use sequential operations when possible
 - **File Positioning**: Minimize random access operations
 - **Capacity Planning**: Pre-allocate capacity when known
 - **Error Handling**: Implement proper error recovery for production use
 
-## 🔍 Implementation Details
+## Implementation Details
 - **File Format**: Binary page files with fixed-size blocks
 - **Page Layout**: Each page contains raw data without metadata
 - **Position Tracking**: Current position is maintained for sequential operations
 - **Capacity Management**: Files are automatically extended as needed
 - **Error Recovery**: Robust error handling for file system operations
+
