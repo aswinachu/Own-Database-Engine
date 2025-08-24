@@ -12,7 +12,7 @@ A comprehensive database engine implementation featuring a multi-layered archite
 
 ---
 
-##🚀 Project Overview
+## 🚀 Project Overview
 
 The **Own Database Engine** is a complete database management system that demonstrates fundamental database concepts through a layered architecture. This project serves as both an educational tool and a foundation for understanding how modern database systems work internally.
 
