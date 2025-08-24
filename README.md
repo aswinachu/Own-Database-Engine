@@ -1,6 +1,6 @@
 # 🗄️ Own Database Engine
 
-A comprehensive database engine implementation featuring a multi-layered architecture with storage management, buffer management, record management, and B+-Tree indexing capabilities.
+A comprehensive database engine implementation featuring a multi-layered architecture with storage management, buffer management, record management, and B+ Tree indexing capabilities.
 
 ## 📋 Table of Contents
 1. [🚀 Project Overview](#project-overview)
@@ -28,8 +28,8 @@ The **Own Database Engine** is a complete database management system that demons
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           🗄️ Database Engine                              │
-│                              (User Interface)                              │
+│                           🗄️ Database Engine                                │
+│                          (User Interface -CLI)                              │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -84,7 +84,7 @@ The **Own Database Engine** is a complete database management system that demons
 
 ## 🔧 Core Components
 
-### 🌳 **B+-Tree Index Manager**
+### 🌳 **B+ Tree Index Manager**
 - **Purpose**: Provides efficient indexing for fast data retrieval and manipulation
 - **Features**: 
   - Create, open, close, and delete B+-tree indexes
@@ -130,7 +130,7 @@ Own-Database-Engine/
 ├── 🧠 Buffer Manager/         # Buffer pool management
 ├── 📊 Record Manager/         # Record and table management
 ├── 💾 Storage Manager/        # File I/O and page management
-└── 📖 README.md              # This file
+└── 📖 README.md              
 ```
 
 ---
@@ -167,10 +167,35 @@ make -f makefile.mk
 Each component includes its own test suite:
 
 ```bash
-# Example for B+-Tree Manager
+# B+-Tree Manager
 cd "B+Tree Manger"
 make -f makefile.mk
 ./btree_mgr
+
+# Buffer Manager (FIFO)
+cd "../Buffer Manager"
+make -f make_file.mk
+./buffermgr
+
+# Buffer Manager (LRU)
+cd "../Buffer Manager"
+make -f makefile.mk
+./buffer_mgr
+
+# Record Manager
+cd "../Record Manager"
+make -f makefile.mk
+./record_mgr
+
+# Storage Manager (Basic)
+cd "../Storage Manager"
+make -f makefile.mk
+./assign1
+
+# Storage Manager (Advanced)
+cd "../Storage Manager"
+make -f makefile2.mk
+./assign2
 ```
 
 ---
@@ -178,8 +203,8 @@ make -f makefile.mk
 ## 🧪 Testing
 
 Each component includes comprehensive test suites:
-- **Storage Manager**: Basic file I/O operations
-- **Buffer Manager**: Memory management and replacement strategies
+- **Storage Manager**: Basic and advanced file I/O operations
+- **Buffer Manager**: FIFO and LRU replacement strategies
 - **Record Manager**: Table operations and record handling
 - **B+-Tree Manager**: Index operations and tree management
 

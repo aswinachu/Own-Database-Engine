@@ -42,8 +42,8 @@ The **Buffer Manager** is the memory management layer of the database engine tha
 - **`dt.h`** - Common data type definitions
 
 ### 🧪 **Testing & Build**
-- **`test_assign2_1.c`** - Main test suite for buffer management
-- **`test_assign2_2.c`** - Additional buffer management tests
+- **`test_buffer_fifo.c`** - FIFO replacement strategy test suite
+- **`test_buffer_lru.c`** - LRU replacement strategy test suite
 - **`test_helper.h`** - Testing framework support
 - **`makefile.mk`** - Build configuration
 
@@ -61,8 +61,8 @@ The **Buffer Manager** is the memory management layer of the database engine tha
 make -f makefile.mk
 
 # Run the buffer manager tests
-./test_assign2_1
-./test_assign2_2
+./test_buffer_fifo
+./test_buffer_lru
 ```
 
 ---

@@ -53,7 +53,7 @@ The **Record Manager** is the table and record management layer of the database 
 - **`tables.h`** - Table and schema data structures
 
 ### 🧪 **Testing & Build**
-- **`test_assign3_1.c`** - Main test suite for record management
+- **`test_record_operations.c`** - Main test suite for record management
 - **`test_expr.c`** - Expression testing utilities
 - **`test_helper.h`** - Testing framework support
 - **`makefile.mk`** - Build configuration
@@ -72,7 +72,7 @@ The **Record Manager** is the table and record management layer of the database 
 make -f makefile.mk
 
 # Run the record manager tests
-./test_assign3_1
+./test_record_operations
 ```
 
 ---

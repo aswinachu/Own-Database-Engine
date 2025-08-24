@@ -1,11 +1,11 @@
-btree_mgr: test_assign4_1.o dberror.o expr.o record_mgr.o rm_serializer.o storage_mgr.o buffer_mgr.o buffer_mgr_stat.o record_mgr_data_structures.o btree_mgr.o
-	gcc -o btree_mgr test_assign4_1.o dberror.o expr.o record_mgr.o rm_serializer.o storage_mgr.o buffer_mgr.o buffer_mgr_stat.o record_mgr_data_structures.o btree_mgr.o -lm
+btree_mgr: test_btree_operations.o dberror.o expr.o record_mgr.o rm_serializer.o storage_mgr.o buffer_mgr.o buffer_mgr_stat.o record_mgr_data_structures.o btree_mgr.o
+	gcc -o btree_mgr test_btree_operations.o dberror.o expr.o record_mgr.o rm_serializer.o storage_mgr.o buffer_mgr.o buffer_mgr_stat.o record_mgr_data_structures.o btree_mgr.o -lm
 
 test_expr: test_expr.o dberror.o expr.o record_mgr.o rm_serializer.o storage_mgr.o buffer_mgr.o buffer_mgr_stat.o
 	gcc -o test_expr test_expr.o dberror.o expr.o record_mgr.o rm_serializer.o storage_mgr.o buffer_mgr.o -lm buffer_mgr_stat.o -lm
 
-test_assign4_1.o: test_assign4_1.c dberror.h storage_mgr.h test_helper.h buffer_mgr.h buffer_mgr_stat.h expr.h tables.h record_mgr.h
-	gcc -c test_assign4_1.c -lm
+test_btree_operations.o: test_btree_operations.c dberror.h storage_mgr.h test_helper.h buffer_mgr.h buffer_mgr_stat.h expr.h tables.h record_mgr.h
+	gcc -c test_btree_operations.c -lm
 
 test_expr.o: test_expr.c dberror.h expr.h record_mgr.h tables.h test_helper.h
 	gcc -c test_expr.c -lm
@@ -36,5 +36,8 @@ dberror.o: dberror.c dberror.h
 
 btree_mgr.o: btree_mgr.c btree_mgr.h tables.h buffer_mgr.h storage_mgr.h record_mgr.h record_mgr_data_structures.h 
 	gcc -c btree_mgr.c -lm
+
+clean:
+	rm -f *.o btree_mgr
 
 

@@ -39,8 +39,8 @@ The **Storage Manager** is the foundational storage layer of the database engine
 - **`dberror.c`** & **`dberror.h`** - Error codes and error management system
 
 ### 🧪 **Testing & Build**
-- **`test_assign1_1.c`** - Main test suite for storage operations
-- **`test_assign1_2.c`** - Additional storage management tests
+- **`test_storage_basic.c`** - Basic storage operations test suite
+- **`test_storage_advanced.c`** - Advanced storage management tests
 - **`test_helper.h`** - Testing framework support
 - **`makefile.mk`** - Build configuration
 
@@ -58,8 +58,8 @@ The **Storage Manager** is the foundational storage layer of the database engine
 make -f makefile.mk
 
 # Run the storage manager tests
-./test_assign1_1
-./test_assign1_2
+./test_storage_basic
+./test_storage_advanced
 ```
 
 ---
