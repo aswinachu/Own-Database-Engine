@@ -1,14 +1,214 @@
-# Own-Database-Engine
-Building database engine with storage manager, buffer manager, record manager and B+ Tree manager.
+# 🗄️ Own Database Engine
 
-Storage Manager:-  
-It is a module that is capable of reading blocks from a file on disk into memory and writing blocks from memory to a file on disk. The storage manager deals with pages (blocks) of fixed size (PAGE_SIZE). In addition to reading and writing pages from a file, it provides methods for creating, opening, and closing files. The storage manager has to maintain several types of information for an open file: The number of total pages in the file, the current page position (for reading and writing), the file name, and a POSIX file descriptor or FILE pointer. 
+A comprehensive database engine implementation featuring a multi-layered architecture with storage management, buffer management, record management, and B+-Tree indexing capabilities.
 
-Buffer Manager:-
-The buffer manager manages a fixed number of pages in memory that represent pages from a page file managed by the storage manager. The memory pages managed by the buffer manager are called page frames or frames for short. We call the combination of a page file and the page frames storing pages from that file a Buffer Pool. The Buffer manager will handle more than one open buffer pool at the same time. However, there are on;y one buffer pool for each page file. Each buffer pool uses one page replacement strategy that is determined when the buffer pool is initialized. Implement two replacement strategies FIFO and LRU.
+## 📋 Table of Contents
+1. [🚀 Project Overview](#project-overview)
+2. [🏗️ System Architecture](#system-architecture)
+3. [🔧 Core Components](#core-components)
+4. [📁 Project Structure](#project-structure)
+5. [🚀 Getting Started](#getting-started)
+6. [🧪 Testing](#testing)
 
-Record Manager:-
-The record manager handles tables with a fixed schema. Clients can insert records, delete records, update records, and scan through the records in a table. A scan is associated with a search condition and only returns records that match the search condition. Each table  stored in a separate page file and your record manager will access the pages of the file through the buffer manager implemented.
+---
 
-Implementing B+tree:-
-The index will be backed up by a page file and pages of the index can be accessed through your buffer manager. Each node occupy one page.  A B+-tree stores pointer to records (the RID introduced in the Record Manager) index by a keys of a given datatype. Pointers to intermediate nodes are represented by the page number of the page the node is stored in.
+## 🚀 Project Overview
+
+The **Own Database Engine** is a complete database management system that demonstrates fundamental database concepts through a layered architecture. This project serves as both an educational tool and a foundation for understanding how modern database systems work internally.
+
+### 🎯 **Key Objectives**
+- Implement a complete database engine from scratch
+- Demonstrate multi-layered database architecture
+- Provide hands-on experience with database internals
+- Showcase efficient data structures and algorithms
+
+---
+
+## 🏗️ System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           🗄️ Database Engine                              │
+│                              (User Interface)                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        🌳 B+-Tree Index Layer                              │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
+│  │   createBtree   │  │    findKey      │  │      insertKey              │ │
+│  │   openBtree     │  │   deleteKey     │  │      deleteBtree            │ │
+│  │   closeBtree    │  │  openTreeScan   │  │      closeTreeScan          │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      📊 Record Management Layer                            │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
+│  │  createTable    │  │   insertRecord  │  │      getRecord              │ │
+│  │   openTable     │  │   deleteRecord  │  │      updateRecord           │ │
+│  │   closeTable    │  │    startScan    │  │       next                  │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      🧠 Buffer Management Layer                            │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
+│  │ initBufferPool  │  │    pinPage      │  │      markDirty              │ │
+│  │shutdownBufferPool│  │   unpinPage    │  │      forcePage              │ │
+│  │                 │  │                 │  │                             │ │
+│  │ Replacement Strategies: FIFO, LRU, Clock, LFU, LRU-K                  │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      💾 Storage Management Layer                           │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
+│  │ createPageFile  │  │   readBlock     │  │      writeBlock             │ │
+│  │  openPageFile   │  │  readNextBlock  │  │     writeCurrentBlock       │ │
+│  │  closePageFile  │  │ readCurrentBlock│  │     appendEmptyBlock        │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           📁 File System                                   │
+│                        (Page Files, Index Files)                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔧 Core Components
+
+### 🌳 **B+-Tree Index Manager**
+- **Purpose**: Provides efficient indexing for fast data retrieval and manipulation
+- **Features**: 
+  - Create, open, close, and delete B+-tree indexes
+  - Insert, delete, and search operations
+  - Tree scanning capabilities
+  - Support for Integer data types
+- **Location**: `B+Tree Manger/`
+
+### 📊 **Record Manager**
+- **Purpose**: Manages table operations, record storage, and schema handling
+- **Features**:
+  - Table creation, opening, and deletion
+  - CRUD operations (Create, Read, Update, Delete)
+  - Conditional scanning with search conditions
+  - Schema management and record serialization
+- **Location**: `Record Manager/`
+
+### 🧠 **Buffer Manager**
+- **Purpose**: Implements memory management with multiple page replacement strategies
+- **Features**:
+  - Multiple replacement strategies (FIFO, LRU, Clock, LFU, LRU-K)
+  - Page pinning and unpinning
+  - Dirty page management
+  - Buffer pool statistics and monitoring
+- **Location**: `Buffer Manager/`
+
+### 💾 **Storage Manager**
+- **Purpose**: Handles low-level file I/O operations and page management
+- **Features**:
+  - Page file creation, opening, and closing
+  - Block reading and writing operations
+  - Sequential and random page access
+  - File capacity management
+- **Location**: `Storage Manager/`
+
+---
+
+## 📁 Project Structure
+
+```
+Own-Database-Engine/
+├── 🌳 B+Tree Manger/          # B+-Tree indexing implementation
+├── 🧠 Buffer Manager/         # Buffer pool management
+├── 📊 Record Manager/         # Record and table management
+├── 💾 Storage Manager/        # File I/O and page management
+└── 📖 README.md              # This file
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- C compiler (GCC recommended)
+- Make utility
+- Basic understanding of database concepts
+
+### Building Individual Components
+Each component can be built independently:
+
+```bash
+# B+-Tree Manager
+cd "B+Tree Manger"
+make -f makefile.mk
+
+# Buffer Manager
+cd "../Buffer Manager"
+make -f makefile.mk
+
+# Record Manager
+cd "../Record Manager"
+make -f makefile.mk
+
+# Storage Manager
+cd "../Storage Manager"
+make -f makefile.mk
+```
+
+### Running Tests
+Each component includes its own test suite:
+
+```bash
+# Example for B+-Tree Manager
+cd "B+Tree Manger"
+make -f makefile.mk
+./btree_mgr
+```
+
+---
+
+## 🧪 Testing
+
+Each component includes comprehensive test suites:
+- **Storage Manager**: Basic file I/O operations
+- **Buffer Manager**: Memory management and replacement strategies
+- **Record Manager**: Table operations and record handling
+- **B+-Tree Manager**: Index operations and tree management
+
+---
+
+## 📚 Learning Outcomes
+
+This project demonstrates:
+- **Database Architecture**: Multi-layered design principles
+- **Memory Management**: Efficient buffer pool strategies
+- **Data Structures**: B+-tree implementation and optimization
+- **File I/O**: Low-level storage management
+- **Error Handling**: Robust error management systems
+- **Performance Optimization**: Multiple replacement strategies
+
+---
+
+## 🔍 Use Cases
+
+- **Educational**: Learning database internals
+- **Research**: Database algorithm experimentation
+- **Development**: Foundation for custom database systems
+- **Prototyping**: Testing database design concepts
+
+---
+
+## 📝 Notes
+
+- Each component is designed to work independently
+- Components can be integrated for full database functionality
+- Error handling is consistent across all layers
+- Performance optimization is a key focus area

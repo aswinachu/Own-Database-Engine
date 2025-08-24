@@ -1,134 +1,238 @@
-RECORD MANAGER
+# 📊 Record Manager
 
-------------------------------------------------------------------------
+A specialized component of the Own Database Engine that handles table operations, record storage, and schema management with comprehensive CRUD operations.
 
-1)Instructions to run the code
-------------------------------
+## 📋 Table of Contents
+1. [🚀 Getting Started](#getting-started)
+2. [🔧 Function Documentation](#function-documentation)
+3. [📁 Important Files](#important-files)
 
-1) Go to terminal,navigate to the assignment directory.
+---
 
-2) Type: 
-	make -f makefile.mk
+## 🎯 Component Overview
 
-3) Type:
-	./record_mgr
+The **Record Manager** is the table and record management layer of the database engine that handles all operations related to tables, records, and schemas. This component provides a complete interface for creating, modifying, and querying database tables with flexible schema support.
 
----------------------------------------------------------------------------
+### 🔑 **Key Features**
+- **Table Management**: Create, open, close, and delete tables
+- **CRUD Operations**: Complete Create, Read, Update, Delete functionality
+- **Schema Management**: Flexible table schema definition and management
+- **Conditional Scanning**: Search and filter records based on conditions
+- **Record Serialization**: Efficient record storage and retrieval
+- **Buffer Integration**: Seamless integration with buffer manager for performance
 
-2)Description of functions used
+### 🎯 **Use Cases**
+- Database table operations
+- Record-level data management
+- Schema design and modification
+- Conditional data retrieval
+- Educational database operations study
 
-	Function : createTable
-	-----------------------
-		
-1) Create a new table along with initializing the bufferpool.
-2) The page size is set to the BM_PageHandle.
-3) A condition to check whether the initial value is assigned to the bufferpool , if the value is not assigned then the values are assigned and incremented repectively.
-4) Page creation is done where we check whether the page is created or not and if created we are trying to open and write on the page.
+---
 
-	Function : openTable
-	---------------------
-	
-1) Pin the page that is opened from the bufferpool.
-2) Check for the condition whether the value is less than number of attributes and then allocate the memory location for the name attribute. 
-3) Check for the condition whether the value is less than number of attibutes and the size of the integer , then allocate the memory location for the data type. 
-4) Unpin the page that was opened. 
+## 📁 Important Files
 
-	Function : closeTable
-	-----------------------------
-1) Close the table and return a success message upon success.
+### 📊 **Core Record Management**
+- **`record_mgr.c`** & **`record_mgr.h`** - Main record manager implementation
+- **`record_mgr_data_structures.c`** & **`record_mgr_data_structures.h`** - Record data structures
 
+### 🔄 **Record Operations**
+- **`rm_serializer.c`** - Record serialization and deserialization utilities
 
-	Function : deleteTable
-	------------------------------
-	
-1) Destroys the particular table by calling destroy page function.
-	
-	Function : getNumTuples
-	-------------------------
+### 🧠 **Buffer Integration**
+- **`buffer_mgr.c`** & **`buffer_mgr.h`** - Buffer pool management integration
+- **`buffer_mgr_stat.c`** & **`buffer_mgr_stat.h`** - Buffer statistics
 
-1) Gets number of tuples/records from the management data.
+### 💾 **Storage Integration**
+- **`storage_mgr.c`** & **`storage_mgr.h`** - Low-level file I/O operations
 
-	Function : insertRecord
-	-------------------------
-		
-1) Pins the page as where the slot is free to insert the new record.
-2) Condition check whetehr the keyslot is less than zero,where pagesize is incremented and the value to the new record is added.
-3) Mark the particular record as dirty as it was recently modified and update the content in the memory by moving the content to the memory.
-4) Pin the record which was modified recently.
+### 🔧 **Supporting Components**
+- **`expr.c`** & **`expr.h`** - Expression evaluation and condition handling
+- **`dberror.c`** & **`dberror.h`** - Error codes and error management system
+- **`dt.h`** - Common data type definitions
+- **`tables.h`** - Table and schema data structures
 
-	Function : deleteRecord
-	---------------------
-1) Opens the page to access and checks whether it is been pinned
-2) Moves the content and then marks it as dirty followed by unpinning it.
+### 🧪 **Testing & Build**
+- **`test_assign3_1.c`** - Main test suite for record management
+- **`test_expr.c`** - Expression testing utilities
+- **`test_helper.h`** - Testing framework support
+- **`makefile.mk`** - Build configuration
 
-	Function : updateRecord
-	----------------------------
-1) Gets the particular record id as where the update needs to be done.
-2) Pins the particular location and updates the record.
-3) Moves the content to the memory by marking it dirty and then unpins it.
+---
 
-	Function : getRecord
-	---------------------------
-1) Pins the page from where the record need to be fetched.
-2) Gets the value of record in a pointer value.
-3) Moves the content to the memory and then unpin the record.
+## 🚀 Getting Started
 
+### Prerequisites
+- Make sure you have a C compiler installed
+- Navigate to the Record Manager directory in your terminal
 
-	Function : startScan
-	------------------------
-1) Scans the particular record.
+### Building and Running
+```bash
+# Build the project
+make -f makefile.mk
 
+# Run the record manager tests
+./test_assign3_1
+```
 
-	Function : next
-	------------------------
+---
 
-1) Check if all values are scanned.
-2) Moves all the values scanned to the memory.
-3) Checks if the value of float or boolean is true and then unpin the page.
-4) Unpin all the pages that were scanned and then return all tuples are scanned.
+## 🔧 Function Documentation
 
-	Function: closeScan
-	---------------------
-	
-1) Check if all the records are scanned and if the condition is satisfied mark the management data as null and free it.
-2) If the condition is failed , unpin the pages that are pinned and return ok.
+### 🎯 Table Management
 
-	Function : getRecordSize
-	-------------------------------
-	
-1)Checks the condition for the total number of attributes and if t=it is satisfied it then checks for the datatype.
-2) Checks whether it is integer or string and then returns attributeoffset. 
+#### `initRecordManager()`
+- **Purpose**: Initializes the Record Manager
+- **Action**: Sets up the record management system
+- **Returns**: Error code indicating success or failure
 
+#### `shutdownRecordManager()`
+- **Purpose**: Cleanly shuts down the Record Manager
+- **Action**: Frees allocated resources and closes open tables
+- **Returns**: Error code indicating success or failure
 
-	Function : createRecord
-	-----------------------------
-	
-1) Checks whetehr a temp value is lesser than the sizof integer.
-2) If the datatype is integer assign the value of sizof integer along with temp value to the record size , the process is carried out for all types of data.
-3) Return success on the creation of record.
+#### `createTable()`
+- **Purpose**: Creates a new table with specified schema
+- **Parameters**: Table name, schema definition
+- **Action**: Creates table file and initializes table structure
+- **Returns**: Error code indicating success or failure
 
-	Function : freeRecord
-	----------------------
+#### `openTable()`
+- **Purpose**: Opens an existing table for operations
+- **Parameters**: Table data structure, table name
+- **Action**: Loads table metadata and prepares for operations
+- **Returns**: Error code indicating success or failure
 
-1) A record is made free by calling free function.
+#### `closeTable()`
+- **Purpose**: Closes an open table
+- **Parameters**: Table data structure
+- **Action**: Flushes changes and releases table resources
+- **Returns**: Error code indicating success or failure
 
-	Function : getAttr
-	------------------
-1) Stores the value from pointer to temp value and then checks for the datatype and increases datatype value accordingly.
-2) Returns the value stored and returns ok.
+#### `deleteTable()`
+- **Purpose**: Permanently removes a table
+- **Parameters**: Table name
+- **Action**: Deletes table file and all associated data
+- **Returns**: Error code indicating success or failure
 
+### 📝 Record Operations
 
-	Function : setAttr
-	------------------
-1) Stores the value from pointer to temp value and then checks for the datatype and increases datatype value accordingly.
-2) The values are set.
+#### `insertRecord()`
+- **Purpose**: Inserts a new record into a table
+- **Parameters**: Table data, record to insert
+- **Action**: Adds record to table and updates metadata
+- **Returns**: Error code indicating success or failure
 
+#### `deleteRecord()`
+- **Purpose**: Removes a record from a table
+- **Parameters**: Table data, record ID (RID)
+- **Action**: Removes record and updates table metadata
+- **Returns**: Error code indicating success or failure
 
-------------------------------------------------------------------------------------------------------------------------
+#### `updateRecord()`
+- **Purpose**: Modifies an existing record
+- **Parameters**: Table data, updated record
+- **Action**: Replaces existing record with new data
+- **Returns**: Error code indicating success or failure
 
-3)Additional header files.
+#### `getRecord()`
+- **Purpose**: Retrieves a specific record from a table
+- **Parameters**: Table data, record ID (RID), record buffer
+- **Action**: Loads record data into provided buffer
+- **Returns**: Error code indicating success or failure
 
-	a)record_mgr_data_structures.c
-        b)record_mgr_data_structures.h
+### 🔍 Scanning and Search
+
+#### `startScan()`
+- **Purpose**: Initiates a table scan with search conditions
+- **Parameters**: Table data, scan handle, search condition
+- **Action**: Sets up scan context and prepares for iteration
+- **Returns**: Error code indicating success or failure
+
+#### `next()`
+- **Purpose**: Retrieves the next record in a scan
+- **Parameters**: Scan handle, record buffer
+- **Action**: Loads next matching record into buffer
+- **Returns**: Error code indicating success or failure
+
+#### `closeScan()`
+- **Purpose**: Closes an active table scan
+- **Parameters**: Scan handle
+- **Action**: Cleans up scan resources
+- **Returns**: Error code indicating success or failure
+
+### 🏗️ Schema Management
+
+#### `createSchema()`
+- **Purpose**: Creates a new table schema
+- **Parameters**: Number of attributes, attribute names, data types, type lengths, key info
+- **Action**: Allocates and initializes schema structure
+- **Returns**: Pointer to created schema
+
+#### `freeSchema()`
+- **Purpose**: Frees a schema structure
+- **Parameters**: Schema to free
+- **Action**: Deallocates schema memory
+- **Returns**: Error code indicating success or failure
+
+#### `getRecordSize()`
+- **Purpose**: Calculates the size of a record with given schema
+- **Parameters**: Schema definition
+- **Returns**: Size in bytes of a record
+
+### 🔧 Record Utilities
+
+#### `createRecord()`
+- **Purpose**: Allocates a new record structure
+- **Parameters**: Record pointer, schema
+- **Action**: Creates and initializes record buffer
+- **Returns**: Error code indicating success or failure
+
+#### `freeRecord()`
+- **Purpose**: Frees a record structure
+- **Parameters**: Record to free
+- **Action**: Deallocates record memory
+- **Returns**: Error code indicating success or failure
+
+#### `getAttr()`
+- **Purpose**: Retrieves an attribute value from a record
+- **Parameters**: Record, schema, attribute number, value buffer
+- **Action**: Extracts attribute value into buffer
+- **Returns**: Error code indicating success or failure
+
+#### `setAttr()`
+- **Purpose**: Sets an attribute value in a record
+- **Parameters**: Record, schema, attribute number, new value
+- **Action**: Updates attribute value in record
+- **Returns**: Error code indicating success or failure
+
+---
+
+## 📝 Notes
+- Each table is stored in a separate page file
+- Records are accessed through the buffer manager for optimal performance
+- Schema modifications require table recreation
+- Scan operations support complex search conditions
+- Error handling is consistent across all operations
+
+## 🐛 Troubleshooting
+If you encounter build errors, ensure:
+- All source files are present in the directory
+- The makefile is correctly configured
+- You have appropriate permissions to create and modify files
+- Dependencies from other components are properly linked
+
+## 🔗 Integration
+This component is designed to work with:
+- **Buffer Manager**: For page-level memory management
+- **Storage Manager**: For file I/O operations
+- **B+-Tree Manager**: For index operations
+- **Expression System**: For search condition evaluation
+
+## 📊 Performance Considerations
+- **Table Size**: Larger tables benefit from proper indexing
+- **Scan Operations**: Use appropriate search conditions to limit results
+- **Buffer Usage**: Leverage buffer manager for frequently accessed pages
+- **Schema Design**: Optimize attribute ordering for common access patterns
 
 

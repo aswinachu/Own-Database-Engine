@@ -1,150 +1,190 @@
-BUFFER MANAGER
+# 🧠 Buffer Manager
 
-CONTENTS :
-1)Instructions to run the code
-2)Description of functions used
-3)Additional MACROS in dberror.h
+A specialized component of the Own Database Engine that implements efficient memory management through buffer pools with multiple page replacement strategies.
 
-***********************************************************************************************
+## 📋 Table of Contents
+1. [🚀 Getting Started](#getting-started)
+2. [🔧 Function Documentation](#function-documentation)
+3. [📁 Important Files](#important-files)
 
-1)Instructions to run the code
-------------------------------
+---
 
-In the terminal,navigate to the assignment directory.
+## 🎯 Component Overview
 
-------For FIFO test case------
-Type: 
-	make -f make_file.mk
-        ./buffermgr 
+The **Buffer Manager** is the memory management layer of the database engine that manages a fixed number of pages in memory (page frames) that represent pages from page files. This component implements sophisticated buffer pool management with multiple replacement strategies for optimal performance.
 
-------For LRU test case---
-Type: 
-	make -f makefile.mk
-        ./buffer_mgr
+### 🔑 **Key Features**
+- **Buffer Pool Management**: Efficient management of multiple buffer pools
+- **Multiple Replacement Strategies**: FIFO, LRU, Clock, LFU, and LRU-K implementations
+- **Page Pinning**: Control over page retention in memory
+- **Dirty Page Management**: Efficient handling of modified pages
+- **Statistics Monitoring**: Comprehensive buffer pool performance metrics
 
+### 🎯 **Use Cases**
+- Database memory optimization
+- Page replacement algorithm research
+- Performance tuning and analysis
+- Educational memory management study
 
-**************************************************************************************************
+---
 
-2)Description of functions used
--------------------------------
+## 📁 Important Files
 
-	Function :initBufferPool
-	-------------------------
+### 🧠 **Core Buffer Management**
+- **`buffer_mgr.c`** & **`buffer_mgr.h`** - Main buffer manager implementation
+- **`buffer_mgr_stat.c`** & **`buffer_mgr_stat.h`** - Buffer statistics and monitoring
 
+### 💾 **Storage Integration**
+- **`storage_mgr.c`** & **`storage_mgr.h`** - Low-level file I/O and page management
 
-1)Open page file and allocate the memory.
-2)Check if buffer page size is 0 and initialize the value.
-3)Initialize other Values in sd.
+### 🔧 **Supporting Components**
+- **`dberror.c`** & **`dberror.h`** - Error codes and error management system
+- **`dt.h`** - Common data type definitions
 
+### 🧪 **Testing & Build**
+- **`test_assign2_1.c`** - Main test suite for buffer management
+- **`test_assign2_2.c`** - Additional buffer management tests
+- **`test_helper.h`** - Testing framework support
+- **`makefile.mk`** - Build configuration
 
-	Function :shutdownBufferPool
-	----------------------------
-	
-1)Initially force values(if any) to write before shutting down.
-2)Check if the data is present in the buffer.
-3)After checking data through pin page functionality, destory the buffer pool.
+---
 
-	
-	Function : forceFlushPool
-	-------------------------
+## 🚀 Getting Started
 
-1)Checks all dirty pages whether the fix count is 0.
-2)If the fix count is zero then write to disk from buffer pool.
-3)Assign the value of dirty page as 0.
-4)On success,return RC_OK to the calling function. 
+### Prerequisites
+- Make sure you have a C compiler installed
+- Navigate to the Buffer Manager directory in your terminal
 
-	Function : markDirty
-	---------------------
-1)Check if the pagenumber of the buffer management is equal to the pagenumber of the pagehandle.
-2)Assign the value of dirty page to 1 and returns RC_OK on success.
-3)On error,RC_ERROR is called.
+### Building and Running
+```bash
+# Build the project
+make -f makefile.mk
 
+# Run the buffer manager tests
+./test_assign2_1
+./test_assign2_2
+```
 
-	Function : unpinPage
-	---------------------
-	
-1)Check if the pagenumber of the buffer management is equal to the pagenumber of the pagehandle.
-2)Decrement the value of fixedcount in the buffer.
-3)On Success,return RC_OK to the calling function.
+---
 
+## 🔧 Function Documentation
 
-	Function : forcePage
-	--------------------
-1)Check if the pagenumber of the buffer management is equal to the pagenumber of the pagehandle.
-2)Open the page in pagehandle.
-3)Write the current content of the page back to the page file on disk .
-4)Assign the dirtypage value to 0 once it is written to the page file on disk.
-3)Increase the count of pages written.
-4)On success,return RC_OK to the calling function.
+### 🎯 Buffer Pool Management
 
+#### `initBufferPool()`
+- **Purpose**: Initializes a new buffer pool
+- **Parameters**: Buffer pool, page file name, number of pages, replacement strategy
+- **Action**: Sets up the buffer pool with specified configuration
+- **Returns**: Error code indicating success or failure
 
-	Function : pinPage 
-	------------------
-1)Check if the page is present in the buffer pool or not , If Not
+#### `shutdownBufferPool()`
+- **Purpose**: Cleanly shuts down a buffer pool
+- **Action**: Flushes all dirty pages and frees allocated memory
+- **Returns**: Error code indicating success or failure
 
-	a)Open a page in pagehandle and allocate the memory .
-	b)Ensure the capacity of the page and read the particular block.
-	c)Assign the value for page frame.
+#### `forceFlushPool()`
+- **Purpose**: Forces all dirty pages to be written to disk
+- **Action**: Writes all modified pages back to their page files
+- **Returns**: Error code indicating success or failure
 
-2)Check if the page is already present in the buffer pool.If yes,	
-	
-	a)Traverse the contents of the page frame till last.
-	b)Increase the fix count of the page
-	c)Check if the replacement strategy is either FIFO or LRU .If not,throw an appropriate error code(RC_ALGORITHM_NOT_IMPLEMENTED).
+### 📄 Page Access Operations
 
+#### `pinPage()`
+- **Purpose**: Pins a page in the buffer pool
+- **Action**: Loads the specified page into memory if not already present
+- **Returns**: Error code indicating success or failure
 
-3)On success,return RC_OK to the calling function.
+#### `unpinPage()`
+- **Purpose**: Unpins a page from the buffer pool
+- **Action**: Decrements the pin count and may make the page eligible for replacement
+- **Returns**: Error code indicating success or failure
 
+#### `markDirty()`
+- **Purpose**: Marks a page as dirty (modified)
+- **Action**: Indicates that the page has been modified and needs to be written back
+- **Returns**: Error code indicating success or failure
 
- Statistics Functions
--------------------------
+#### `forcePage()`
+- **Purpose**: Forces a specific page to be written to disk
+- **Action**: Immediately writes the page back to its page file
+- **Returns**: Error code indicating success or failure
 
-	Function : getFrameContents
-	----------------------------
-	
-1)Initialize the buffer pagesize
-2)Traverse till the end of pagesize and read the page numbers to the array.
-3)Returns an array of PageNumber(of size numPages).
- 
-	Function : getDirtyFlags
-	------------------------
-	
-1)Initialize the buffer pagesize
-2)Traverse till the end of pagesize and check if the dirtypage is equal to one or not.
-3)Returns an array of bool(of size numPages).
+### 📊 Statistics and Monitoring
 
+#### `getFrameContents()`
+- **Purpose**: Retrieves the current page numbers in each frame
+- **Returns**: Array of page numbers currently in the buffer pool
 
-	Function : getFixCounts
-	------------------------
+#### `getDirtyFlags()`
+- **Purpose**: Retrieves the dirty status of each frame
+- **Returns**: Array of boolean flags indicating which pages are dirty
 
-1)Initialize the buffer pagesize
-2)Traverse till the end of pagesize and read the page numbers to the array.
-3)Returns an array of PageNumber(of size numPages).
-	
+#### `getFixCounts()`
+- **Purpose**: Retrieves the pin count of each frame
+- **Returns**: Array of integers showing how many times each page is pinned
 
-	Function : getNumReadIO
-	------------------------
+#### `getNumReadIO()`
+- **Purpose**: Gets the total number of read I/O operations
+- **Returns**: Count of read operations performed
 
-1)Refer to the pool manager structure,which contains the information of the pages read.
-2)Return the pages read. 
+#### `getNumWriteIO()`
+- **Purpose**: Gets the total number of write I/O operations
+- **Returns**: Count of write operations performed
 
+---
 
-	Function: getNumWriteIO
-	-----------------------
-	
-1)Refer to the pool manager structure,which contains the information of the pages written.
-2) Return the pages written. 
+## 🔄 Replacement Strategies
 
-***********************************************************************************************************
+### **FIFO (First In, First Out)**
+- **Description**: Replaces the oldest page in the buffer pool
+- **Use Case**: Simple and predictable behavior
+- **Performance**: Moderate, good for sequential access patterns
 
-3)Additional MACROS
--------------------
-	
-	
-We have included the following additional error checks in dberror.h
+### **LRU (Least Recently Used)**
+- **Description**: Replaces the page that hasn't been accessed for the longest time
+- **Use Case**: Temporal locality in access patterns
+- **Performance**: Good for most access patterns
 
--> define RC_ERROR 5				
--> define RC_PINNED_PAGES_STILL_IN_BUFFER 6
--> define RC_ALGORITHM_NOT_IMPLEMENTED 7
+### **Clock**
+- **Description**: Approximates LRU with lower overhead using a circular buffer
+- **Use Case**: Efficient LRU approximation
+- **Performance**: Good balance of performance and overhead
 
-*************************************************************************************************************
+### **LFU (Least Frequently Used)**
+- **Description**: Replaces the page with the lowest access frequency
+- **Use Case**: Frequency-based access patterns
+- **Performance**: Good for stable access patterns
+
+### **LRU-K**
+- **Description**: Enhanced LRU that considers the Kth most recent access
+- **Use Case**: Sophisticated temporal locality
+- **Performance**: Excellent for complex access patterns
+
+---
+
+## 📝 Notes
+- Each buffer pool can handle only one page file
+- Multiple buffer pools can be open simultaneously
+- Page replacement strategy is determined at initialization
+- Dirty pages are automatically written back when replaced
+- Statistics are maintained for performance analysis
+
+## 🐛 Troubleshooting
+If you encounter build errors, ensure:
+- All source files are present in the directory
+- The makefile is correctly configured
+- You have appropriate permissions to create and modify files
+- Dependencies from other components are properly linked
+
+## 🔗 Integration
+This component is designed to work with:
+- **Storage Manager**: For page file operations
+- **Record Manager**: For record-level operations
+- **B+-Tree Manager**: For index operations
+- **Higher-level Components**: For complete database functionality
+
+## 📊 Performance Considerations
+- **Buffer Pool Size**: Larger pools reduce I/O but increase memory usage
+- **Replacement Strategy**: Choose based on your access pattern characteristics
+- **Page Pinning**: Minimize unnecessary pinning to improve replacement efficiency
+- **Dirty Page Management**: Balance between performance and data consistency

@@ -1,5 +1,7 @@
 # 🌳 B+-Tree Index Manager
 
+A specialized component of the Own Database Engine that implements efficient B+-tree indexing for fast data retrieval and manipulation operations.
+
 ## 📋 Table of Contents
 1. [🚀 Getting Started](#getting-started)
 2. [🔧 Function Documentation](#function-documentation)
@@ -7,90 +9,22 @@
 
 ---
 
-## 🎯 Project Summary
+## 🎯 Component Overview
 
-The **B+-Tree Index Manager** is a comprehensive database management system that implements a complete storage and indexing infrastructure. This project demonstrates the fundamental concepts of database systems through multiple interconnected layers:
-
-### 🏗️ **Architecture Overview**
-- **Storage Manager**: Handles low-level file I/O operations and page management
-- **Buffer Manager**: Implements memory management with multiple replacement strategies (FIFO, LRU, Clock, LFU, LRU-K)
-- **Record Manager**: Manages table operations, record storage, and schema handling
-- **B+-Tree Index Manager**: Provides efficient indexing for fast data retrieval and manipulation
+The **B+-Tree Index Manager** is the indexing layer of the database engine that provides fast access to data through B+-tree data structures. This component handles all index-related operations including creation, deletion, searching, and maintenance of B+-tree indexes.
 
 ### 🔑 **Key Features**
-- **Multi-layered Design**: Clean separation of concerns from storage to indexing
-- **Flexible Buffer Management**: Multiple page replacement strategies for optimal performance
-- **Comprehensive Indexing**: Full B+-tree implementation with insert, delete, and search operations
-- **Record Management**: Complete CRUD operations for database records
-- **Error Handling**: Robust error management system with detailed return codes
+- **Efficient Indexing**: B+-tree implementation for logarithmic search complexity
+- **Memory Management**: Integration with buffer manager for optimal performance
+- **Flexible Operations**: Create, open, close, and delete indexes
+- **Fast Retrieval**: Quick key-based lookups and range scans
+- **Integer Support**: Optimized for integer key types
 
 ### 🎯 **Use Cases**
-- Educational database systems
-- Small to medium-scale database applications
-- Database engine research and development
-- Understanding database internals and algorithms
-
----
-
-## 🖼️ **System Architecture Diagram**
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           B+-Tree Index Manager                            │
-│                              (User Interface)                              │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                        🎯 B+-Tree Index Layer                              │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
-│  │   createBtree   │  │    findKey      │  │      insertKey              │ │
-│  │   openBtree     │  │   deleteKey     │  │      deleteBtree            │ │
-│  │   closeBtree    │  │  openTreeScan   │  │      closeTreeScan          │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                      📊 Record Management Layer                            │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
-│  │  createTable    │  │   insertRecord  │  │      getRecord              │ │
-│  │   openTable     │  │   deleteRecord  │  │      updateRecord           │ │
-│  │   closeTable    │  │    startScan    │  │       next                  │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                      🧠 Buffer Management Layer                            │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
-│  │ initBufferPool  │  │    pinPage      │  │      markDirty              │ │
-│  │shutdownBufferPool│  │   unpinPage    │  │      forcePage              │ │
-│  │                 │  │                 │  │                             │ │
-│  │ Replacement Strategies: FIFO, LRU, Clock, LFU, LRU-K                  │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                      💾 Storage Management Layer                           │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
-│  │ createPageFile  │  │   readBlock     │  │      writeBlock             │ │
-│  │  openPageFile   │  │  readNextBlock  │  │     writeCurrentBlock       │ │
-│  │  closePageFile  │  │ readCurrentBlock│  │     appendEmptyBlock        │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           📁 File System                                   │
-│                        (Page Files, Index Files)                          │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-Legend:
-├─► Data Flow Direction
-└─► Layer Dependencies
-```
+- Database indexing for performance optimization
+- Range queries and sequential access
+- Primary and secondary index management
+- Educational B+-tree implementation study
 
 ---
 
@@ -100,16 +34,16 @@ Legend:
 - **`btree_mgr.c`** & **`btree_mgr.h`** - Main B+-tree index manager implementation
 - **`tables.h`** - Data structure definitions for tables and schemas
 
-### 📊 **Record Management System**
+### 📊 **Record Management Integration**
 - **`record_mgr.c`** & **`record_mgr.h`** - Record manager for table operations
 - **`record_mgr_data_structures.c`** & **`record_mgr_data_structures.h`** - Record data structures
 - **`rm_serializer.c`** - Record serialization and deserialization utilities
 
-### 🧠 **Buffer Management**
+### 🧠 **Buffer Management Integration**
 - **`buffer_mgr.c`** & **`buffer_mgr.h`** - Buffer pool management with multiple replacement strategies
 - **`buffer_mgr_stat.c`** & **`buffer_mgr_stat.h`** - Buffer statistics and monitoring
 
-### 💾 **Storage Layer**
+### 💾 **Storage Layer Integration**
 - **`storage_mgr.c`** & **`storage_mgr.h`** - Low-level file I/O and page management
 
 ### 🔧 **Supporting Components**
@@ -129,7 +63,7 @@ Legend:
 
 ### Prerequisites
 - Make sure you have a C compiler installed
-- Navigate to the project directory in your terminal
+- Navigate to the B+Tree Manager directory in your terminal
 
 ### Building and Running
 ```bash
@@ -219,9 +153,17 @@ make -f makefile.mk
 - Ensure proper error handling when calling these functions
 - The B+-tree implementation supports Integer data types
 - Memory management is handled automatically by the manager functions
+- This component integrates with the Buffer Manager for page-level operations
 
 ## 🐛 Troubleshooting
 If you encounter build errors, ensure:
 - All source files are present in the directory
 - The makefile is correctly configured
 - You have appropriate permissions to create and modify files
+- Dependencies from other components are properly linked
+
+## 🔗 Integration
+This component is designed to work with:
+- **Buffer Manager**: For page-level memory management
+- **Record Manager**: For record storage and retrieval
+- **Storage Manager**: For persistent file operations

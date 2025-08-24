@@ -1,150 +1,227 @@
-STORAGE MANAGER
+# 💾 Storage Manager
 
-CONTENTS :
-1)Instructions to run the code
-2)Description of functions used
-3)Additional Test Cases
-------------------------------------------------------------------------
+A specialized component of the Own Database Engine that handles low-level file I/O operations, page management, and persistent storage operations.
 
-1)Instructions to run the code
-------------------------------
+## 📋 Table of Contents
+1. [🚀 Getting Started](#getting-started)
+2. [🔧 Function Documentation](#function-documentation)
+3. [📁 Important Files](#important-files)
 
-a)For executing create,Open,close and destroy test cases:
+---
 
-1) In the terminal,navigate to the assignment directory.
+## 🎯 Component Overview
 
-2) Type: 
-	make -f makefile.mk
+The **Storage Manager** is the foundational storage layer of the database engine that provides the lowest level of abstraction for file operations. This component handles page-based file management, block I/O operations, and provides the persistent storage foundation for all other database components.
 
-3) ./assign1
+### 🔑 **Key Features**
+- **Page File Management**: Create, open, close, and destroy page files
+- **Block I/O Operations**: Efficient reading and writing of fixed-size blocks
+- **Sequential Access**: Sequential navigation through file pages
+- **Random Access**: Direct access to specific page numbers
+- **Capacity Management**: Dynamic file expansion and page allocation
+- **Fixed Page Size**: Consistent PAGE_SIZE blocks for all operations
 
-b) For executing additional test cases:
+### 🎯 **Use Cases**
+- Database file system operations
+- Page-level storage management
+- Low-level I/O performance optimization
+- Educational storage system study
+- Foundation for higher-level database components
 
-1) In the terminal,navigate to the assignment directory.
+---
 
-2) Type: 
-	make -f makefile2.mk
+## 📁 Important Files
 
-3) ./assign2
----------------------------------------------------------------------------
+### 💾 **Core Storage Management**
+- **`storage_mgr.c`** & **`storage_mgr.h`** - Main storage manager implementation
 
-2)Description of functions used
+### 🔧 **Supporting Components**
+- **`dberror.c`** & **`dberror.h`** - Error codes and error management system
 
-	Function : CreatePageFile
-	-------------------------
-		
-1)Creating a new file, if already exist it is discarded and new empty file is created
-2)If the file is created successfully, it is filled with null bytes else return error.
+### 🧪 **Testing & Build**
+- **`test_assign1_1.c`** - Main test suite for storage operations
+- **`test_assign1_2.c`** - Additional storage management tests
+- **`test_helper.h`** - Testing framework support
+- **`makefile.mk`** - Build configuration
 
-	Function : OpenPageFile
-	------------------------
-	
-1) Checks if file exists with given name.
-2) If yes, initializing file handle with all file related information
-3) If not, returning appropriate file not found error message 
-4) The file pointer is stored for book keeping(mgmtInfo) 
+---
 
-	Function : ClosePageFile
-	-----------------------------
-1) Close the file and return a success message upon success.
-2) Upon failure, return appropriate error message.
+## 🚀 Getting Started
 
+### Prerequisites
+- Make sure you have a C compiler installed
+- Navigate to the Storage Manager directory in your terminal
 
-	Function : DestroyPageFile
-	------------------------------
-	
-1) Removes the file , if it is present.
-2) If it is success, return a success message.
-3) else, return a failure message.
+### Building and Running
+```bash
+# Build the project
+make -f makefile.mk
 
-	Function : readFirstBlock
-	-------------------------
+# Run the storage manager tests
+./test_assign1_1
+./test_assign1_2
+```
 
-1)Pass the file handle and buffer(memPage) value to readCurrentBlock.
-2)It checks if the file exist or not.
-3)If the file dosent exist, it return appropriate error.
-4)If the file exist, initialize file pointer and assign page file information values. 
-5)Move the pointer to initial page block and read the file.
+---
 
-	Function : getBlockPos
-	-------------------------
-		
-1)Checks if file exist, returns error is the file does not exist.
-2)Else, returns current block position.
+## 🔧 Function Documentation
 
-	Function : readBlock
-	---------------------
-1)Check if the file exist. If it is not present return appropriate failure error.
-2)If it the file exist, initialize file pointer and assign page file information values. 
-3)Move the pointer to initial page block and read the file.
+### 🎯 Storage Manager Initialization
 
-	Function : readPreviousBlock
-	----------------------------
-1)Pass the previous file handle value and buffer(memPage) value to readCurrentBlock.
-2)It checks if the file exist or not.
-3)If the file does not exist, it return appropriate error.
-4)If the file exist, initialize file pointer and assign page file information values. 
-5)Move the pointer to fild Handle location and read the file.
+#### `initStorageManager()`
+- **Purpose**: Initializes the storage management system
+- **Action**: Sets up the storage manager for file operations
+- **Returns**: Void (no return value)
 
-	Function : readCurrentBlock
-	---------------------------
-1)It checks if the file exist or not.
-2)If the file does not exist, it return appropriate error.
-3)If the file exist, initialize file pointer and assign page file information values. 
-4)Move the pointer to file Handle location and read the file.
+### 📁 Page File Operations
 
+#### `createPageFile()`
+- **Purpose**: Creates a new page file with initial capacity
+- **Parameters**: File name
+- **Action**: Creates file and initializes with one empty page
+- **Returns**: Error code indicating success or failure
 
-	Function : readNextBlock
-	------------------------
-1)Pass the next block value and memPage value to readCurrentBlock .
-2)Checks the file exist or not.
-3)If the file exist, the file handle location will be moved to next block and reads the file.
-4)If the file does not exist, it returns appropriate error.
+#### `openPageFile()`
+- **Purpose**: Opens an existing page file for operations
+- **Parameters**: File name, file handle structure
+- **Action**: Opens file and initializes file handle metadata
+- **Returns**: Error code indicating success or failure
 
+#### `closePageFile()`
+- **Purpose**: Closes an open page file
+- **Parameters**: File handle structure
+- **Action**: Closes file and updates metadata
+- **Returns**: Error code indicating success or failure
 
-	Function : readLastBlock
-	------------------------
+#### `destroyPageFile()`
+- **Purpose**: Permanently removes a page file
+- **Parameters**: File name
+- **Action**: Deletes file from file system
+- **Returns**: Error code indicating success or failure
 
-1)Passes the last block location and buffer to readCurrentBlock.
-2)Checks the file exist or not.
-3)If the file exist, the file handle location will be moved to next block and reads the file.
-4)If the file does not exist, it returns appropriate error.
+### 📖 Block Reading Operations
 
+#### `readBlock()`
+- **Purpose**: Reads a specific block from a page file
+- **Parameters**: Page number, file handle, memory buffer
+- **Action**: Reads specified page into provided buffer
+- **Returns**: Error code indicating success or failure
 
-	Function: writeBlock
-	---------------------
-	
-1)Check if the file exist, if yes it poceeds to write.
-2)Move pointer location to next available location.
-3)If file does not exit return failure message.
+#### `readFirstBlock()`
+- **Purpose**: Reads the first page of a file
+- **Parameters**: File handle, memory buffer
+- **Action**: Reads first page and updates current position
+- **Returns**: Error code indicating success or failure
 
+#### `readPreviousBlock()`
+- **Purpose**: Reads the previous page relative to current position
+- **Parameters**: File handle, memory buffer
+- **Action**: Reads previous page and updates current position
+- **Returns**: Error code indicating success or failure
 
-	Function : appendEmptyBlock
-	-------------------------------
-	
-1)Check if the file exist, returns error if it does not exist.
-2)else, adds 1 current position.
+#### `readCurrentBlock()`
+- **Purpose**: Reads the page at current position
+- **Parameters**: File handle, memory buffer
+- **Action**: Reads current page without changing position
+- **Returns**: Error code indicating success or failure
 
+#### `readNextBlock()`
+- **Purpose**: Reads the next page relative to current position
+- **Parameters**: File handle, memory buffer
+- **Action**: Reads next page and updates current position
+- **Returns**: Error code indicating success or failure
 
-	Function : ensureCapacity
-	-----------------------------
-	
-1) Check if the file exist, if it exist then checks the size of the page block is less than the number of pages.
-2) If true,then the memory is allocated and size is increased.
-3) Else,print'\0' for the remaining pages.
+#### `readLastBlock()`
+- **Purpose**: Reads the last page of a file
+- **Parameters**: File handle, memory buffer
+- **Action**: Reads last page and updates current position
+- **Returns**: Error code indicating success or failure
 
+### ✍️ Block Writing Operations
 
-3) Additional Test Cases
-------------------------
+#### `writeBlock()`
+- **Purpose**: Writes a specific block to a page file
+- **Parameters**: Page number, file handle, memory buffer
+- **Action**: Writes buffer content to specified page
+- **Returns**: Error code indicating success or failure
 
-We have included additional test cases for executing the following functions.
+#### `writeCurrentBlock()`
+- **Purpose**: Writes to the page at current position
+- **Parameters**: File handle, memory buffer
+- **Action**: Writes buffer content to current page
+- **Returns**: Error code indicating success or failure
 
--EnsureCapacity
--readCurrentBlock
--readLastBlock
--readNextBlock
--readPreviousBlock
--writeCurrentBlock
--getlockPos
--appendEmptyBlock
-------------------------------------------------------------------------------------------------------------------------
+### 🔧 Utility Functions
+
+#### `getBlockPos()`
+- **Purpose**: Gets the current block position in a file
+- **Parameters**: File handle
+- **Returns**: Current page number (0-indexed)
+
+#### `appendEmptyBlock()`
+- **Purpose**: Adds a new empty page to the end of a file
+- **Parameters**: File handle
+- **Action**: Extends file by one page and updates metadata
+- **Returns**: Error code indicating success or failure
+
+#### `ensureCapacity()`
+- **Purpose**: Ensures file has specified number of pages
+- **Parameters**: Number of pages, file handle
+- **Action**: Extends file if necessary to meet capacity requirement
+- **Returns**: Error code indicating success or failure
+
+---
+
+## 📊 Data Structures
+
+### **SM_FileHandle**
+```c
+typedef struct SM_FileHandle {
+  char *fileName;        // Name of the page file
+  int totalNumPages;     // Total number of pages in file
+  int curPagePos;        // Current page position (0-indexed)
+  void *mgmtInfo;        // Management information
+} SM_FileHandle;
+```
+
+### **SM_PageHandle**
+```c
+typedef char* SM_PageHandle;  // Pointer to page data buffer
+```
+
+---
+
+## 📝 Notes
+- All pages have a fixed size defined by PAGE_SIZE
+- Page numbers are 0-indexed
+- File operations maintain current position for sequential access
+- Error handling is consistent across all operations
+- Files are automatically extended when needed
+
+## 🐛 Troubleshooting
+If you encounter build errors, ensure:
+- All source files are present in the directory
+- The makefile is correctly configured
+- You have appropriate permissions to create and modify files
+- PAGE_SIZE constant is properly defined
+
+## 🔗 Integration
+This component is designed to work with:
+- **Buffer Manager**: For page-level memory management
+- **Record Manager**: For table file operations
+- **B+-Tree Manager**: For index file operations
+- **Higher-level Components**: For complete database functionality
+
+## 📊 Performance Considerations
+- **Page Size**: Optimize PAGE_SIZE for your storage system
+- **Sequential Access**: Use sequential operations when possible
+- **File Positioning**: Minimize random access operations
+- **Capacity Planning**: Pre-allocate capacity when known
+- **Error Handling**: Implement proper error recovery for production use
+
+## 🔍 Implementation Details
+- **File Format**: Binary page files with fixed-size blocks
+- **Page Layout**: Each page contains raw data without metadata
+- **Position Tracking**: Current position is maintained for sequential operations
+- **Capacity Management**: Files are automatically extended as needed
+- **Error Recovery**: Robust error handling for file system operations
