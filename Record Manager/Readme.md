@@ -3,13 +3,18 @@
 A specialized component of the Own Database Engine that handles table operations, record storage, and schema management with comprehensive CRUD operations.
 
 ## 📋 Table of Contents
-1. [🚀 Getting Started](#getting-started)
-2. [🔧 Function Documentation](#function-documentation)
-3. [📁 Important Files](#important-files)
+1. [Component Overview](#component-overview)
+2. [Getting Started](#getting-started)
+3. [Important Files](#important-files)
+4. [Function Documentation](#function-documentation)
+6. [Notes](#notes)
+7. [Troubleshooting](#troubleshooting)
+8. [Integration](#integration)
+9. [Performance Considerations](#performance-considerations)
 
 ---
 
-## 🎯 Component Overview
+## Component Overview
 
 The **Record Manager** is the table and record management layer of the database engine that handles all operations related to tables, records, and schemas. This component provides a complete interface for creating, modifying, and querying database tables with flexible schema support.
 
@@ -30,7 +35,24 @@ The **Record Manager** is the table and record management layer of the database 
 
 ---
 
-## 📁 Important Files
+## Getting Started
+
+### Prerequisites
+- Make sure you have a C compiler installed
+- Navigate to the Record Manager directory in your terminal
+
+### Building and Running
+```bash
+# Build the project
+make -f makefile.mk
+
+# Run the record manager tests
+./test_record_operations
+```
+
+---
+
+## Important Files
 
 ### 📊 **Core Record Management**
 - **`record_mgr.c`** & **`record_mgr.h`** - Main record manager implementation
@@ -60,24 +82,7 @@ The **Record Manager** is the table and record management layer of the database 
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Make sure you have a C compiler installed
-- Navigate to the Record Manager directory in your terminal
-
-### Building and Running
-```bash
-# Build the project
-make -f makefile.mk
-
-# Run the record manager tests
-./test_record_operations
-```
-
----
-
-## 🔧 Function Documentation
+## Function Documentation
 
 ### 🎯 Table Management
 
@@ -208,31 +213,32 @@ make -f makefile.mk
 
 ---
 
-## 📝 Notes
+## Notes
 - Each table is stored in a separate page file
 - Records are accessed through the buffer manager for optimal performance
 - Schema modifications require table recreation
 - Scan operations support complex search conditions
 - Error handling is consistent across all operations
 
-## 🐛 Troubleshooting
+## Troubleshooting
 If you encounter build errors, ensure:
 - All source files are present in the directory
 - The makefile is correctly configured
 - You have appropriate permissions to create and modify files
 - Dependencies from other components are properly linked
 
-## 🔗 Integration
+## Integration
 This component is designed to work with:
 - **Buffer Manager**: For page-level memory management
 - **Storage Manager**: For file I/O operations
 - **B+-Tree Manager**: For index operations
 - **Expression System**: For search condition evaluation
 
-## 📊 Performance Considerations
+## Performance Considerations
 - **Table Size**: Larger tables benefit from proper indexing
 - **Scan Operations**: Use appropriate search conditions to limit results
 - **Buffer Usage**: Leverage buffer manager for frequently accessed pages
 - **Schema Design**: Optimize attribute ordering for common access patterns
+
 
 
