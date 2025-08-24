@@ -9,6 +9,9 @@ A comprehensive database engine implementation featuring a multi-layered archite
 4. [📁 Project Structure](#project-structure)
 5. [🚀 Getting Started](#getting-started)
 6. [🧪 Testing](#testing)
+7. [📚 Learning Outcomes](#learning-outcomes)
+8. [🔍 Use Cases](#use-cases)
+9. [📝 Notes](#notes)
 
 ---
 
